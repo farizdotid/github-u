@@ -1,5 +1,6 @@
 package com.app.githubu.data.remote
 
+import com.app.githubu.model.resp.RespDetailUser
 import com.app.githubu.model.resp.RespSearchUser
 import com.app.githubu.model.resp.RespUsers
 import com.app.githubu.utils.network.ErrorApi
@@ -28,6 +29,14 @@ class GeneralDataSource @Inject constructor(
         return getResponse(
             request = {
                 generalServices.requestSearchUsers(username)
+            }
+        )
+    }
+
+    suspend fun reqDetailUser(username:String): Result<RespDetailUser> {
+        return getResponse(
+            request = {
+                generalServices.requestDetailUser(username)
             }
         )
     }

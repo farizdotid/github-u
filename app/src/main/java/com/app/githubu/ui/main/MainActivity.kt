@@ -3,6 +3,7 @@ package com.app.githubu.ui.main
 import androidx.activity.viewModels
 import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityMainBinding
+import com.app.githubu.ui.detail.UserDetailActivity
 import com.app.githubu.utils.gone
 import com.app.githubu.utils.network.Result
 import com.app.githubu.utils.visible
@@ -15,7 +16,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private val mainViewModel:MainViewModel by viewModels()
 
     override fun initialize() {
-        mainViewModel.requestSearchUsers("farizdotid")
+//        mainViewModel.requestSearchUsers("farizdotid")
+        UserDetailActivity.start(this, false, "farizdotid")
     }
 
     override fun initObserveViewModel() {
@@ -23,7 +25,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     binding.pbLoading.gone()
-                    Timber.d("debug -- MainActivity.kt - total data ${result.data?.count()}")
                 }
 
                 Result.Status.ERROR -> {
