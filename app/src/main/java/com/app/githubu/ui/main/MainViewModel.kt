@@ -27,4 +27,13 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+
+    fun requestSearchUsers(username: String) {
+        viewModelScope.launch {
+            generalRepository.requestSearchUsers(username)
+                .collect {
+                    _userList.value = it
+                }
+        }
+    }
 }

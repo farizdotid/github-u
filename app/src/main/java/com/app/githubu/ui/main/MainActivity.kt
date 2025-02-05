@@ -7,6 +7,7 @@ import com.app.githubu.utils.gone
 import com.app.githubu.utils.network.Result
 import com.app.githubu.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::inflate) {
@@ -14,7 +15,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private val mainViewModel:MainViewModel by viewModels()
 
     override fun initialize() {
-        mainViewModel.requestUsers()
+        mainViewModel.requestSearchUsers("farizdotid")
     }
 
     override fun initObserveViewModel() {
@@ -22,7 +23,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     binding.pbLoading.gone()
-
+                    Timber.d("debug -- MainActivity.kt - total data ${result.data?.count()}")
                 }
 
                 Result.Status.ERROR -> {

@@ -21,10 +21,33 @@ class GeneralRepository @Inject constructor(
                 val userList = arrayListOf<User>()
 
                 result.data.forEachIndexed { index, data ->
-                    val username = data.login.orEmpty()
+                    val login = data.login.orEmpty()
                     val avatar = data.avatarUrl.orEmpty()
 
-                    userList.add(User(username, avatar))
+                    userList.add(User(login, avatar))
+                }
+
+                emit(Result.success(userList))
+            } else {
+                emit(Result.error("Failed to get data", result.error))
+            }
+
+        }.flowOn(Dispatchers.IO)
+    }
+
+    suspend fun requestSearchUsers(username:String): Flow<Result<ArrayList<User>>> {
+        return flow {
+            emit(Result.loading())
+            val result = generalDataSource.reqSearchUsers(username)
+
+            if (result.data?.totalCount != 0) {
+                val userList = arrayListOf<User>()
+
+                result.data?.items?.forEachIndexed { index, data ->
+                    val login = data?.login.orEmpty()
+                    val avatar = data?.avatarUrl.orEmpty()
+
+                    userList.add(User(login, avatar))
                 }
 
                 emit(Result.success(userList))
