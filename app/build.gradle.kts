@@ -1,20 +1,46 @@
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("com.android.application")
+    kotlin("android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-android")
+    id("kotlin-parcelize")
 }
 
 android {
-    namespace = "com.app.githubu"
-    compileSdk = 34
+    namespace = AppConfig.id
+    compileSdk = AppConfig.compileSdk
 
     defaultConfig {
-        applicationId = "com.app.githubu"
-        minSdk = 21
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = AppConfig.id
+        minSdk = AppConfig.minSdk
+        targetSdk = AppConfig.targetSdk
+
+        versionCode = AppConfig.versionCode
+        versionName = AppConfig.versionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions.add("type")
+    productFlavors {
+        create("dev") {
+            dimension = "type"
+            buildConfigField("String", "BASE_URL", "\"https://nn-api.stagingapp.xyz/\"")
+        }
+
+        create("prod") {
+            dimension = "type"
+            buildConfigField("String", "BASE_URL", "\"https://nn-api.stagingapp.xyz/\"")
+        }
+    }
+
+    viewBinding {
+        android.buildFeatures.viewBinding = true
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {
@@ -27,22 +53,32 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = "1.8"
+
+    applicationVariants.all {
+        outputs.forEach { output ->
+            if (output is com.android.build.gradle.internal.api.BaseVariantOutputImpl) {
+                output.outputFileName =
+                    "githubu_${AppConfig.versionName}(${AppConfig.versionCode}).${output.outputFile.extension}"
+            }
+        }
     }
 }
 
 dependencies {
+    //std lib
+    implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    //app libs
+    implementation(AppDependencies.appLibraries)
+    //test libs
+    testImplementation(AppDependencies.testLibraries)
 
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    kapt(AppDependencies.compilerLibraries)
+
+    androidTestImplementation(AppDependencies.androidTestLibraries)
+
+    debugImplementation(AppDependencies.chuckerDebug)
+    releaseImplementation(AppDependencies.chuckerRelease)
 }
