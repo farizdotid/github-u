@@ -6,4 +6,11 @@
     <color name="primaryDark">#24292e</color>
     <color name="primary">#2b3137</color>
     <color name="green_2DB">#2dba4e</color>
+
+    <color name="neutral_0">#FFFFFF</color>
+    <color name="neutral_20">#EFEFEF</color>
+    <color name="neutral_40">#EBEBEB</color>
+    <color name="neutral_60">#C1C1C1</color>
+    <color name="neutral_80">#7B747A</color>
+    <color name="neutral_100">#262429</color>
 </resources>

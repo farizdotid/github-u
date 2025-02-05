@@ -5,8 +5,45 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".ui.main.MainActivity">
 
+    <ProgressBar
+        android:id="@+id/pb_loading"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminateOnly="true"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/et_search"
+        style="@style/Textview_Regular_Poppins_14"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/bg_form_search"
+        android:drawableStart="@drawable/ic_search_form"
+        android:drawablePadding="8dp"
+        android:elevation="2dp"
+        android:hint="@string/search_for_a_user_e_g_farizdotid"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
+        android:textColor="@color/neutral_100"
+        android:textColorHint="@color/neutral_60" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        style="@style/Textview_Bold_Poppins_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/users"
+        android:textColor="@color/primaryDark" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_users"

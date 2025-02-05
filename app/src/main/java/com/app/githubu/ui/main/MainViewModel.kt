@@ -1,5 +1,7 @@
 package com.app.githubu.ui.main
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -10,21 +12,34 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.app.githubu.utils.network.Result
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val generalRepository: GeneralRepository,
 ) : ViewModel() {
 
-    val pagedUsers: Flow<PagingData<User>> = generalRepository.requestUsers()
+    val pagedUsers: Flow<PagingData<User>> = generalRepository.requestPagingUsers()
         .cachedIn(viewModelScope)
 
-//    fun requestSearchUsers(username: String) {
-//        viewModelScope.launch {
-//            generalRepository.requestSearchUsers(username)
-//                .collect {
-//                    _userList.value = it
-//                }
-//        }
-//    }
+    private val _userList = MutableLiveData<Result<ArrayList<User>>>()
+    val userList: LiveData<Result<ArrayList<User>>>
+        get() = _userList
+
+    fun requestUsers() {
+        viewModelScope.launch {
+            generalRepository.requestUsers()
+                .collect {
+                    _userList.value = it
+                }
+        }
+    }
+    fun requestSearchUsers(username: String) {
+        viewModelScope.launch {
+            generalRepository.requestSearchUsers(username)
+                .collect {
+                    _userList.value = it
+                }
+        }
+    }
 }

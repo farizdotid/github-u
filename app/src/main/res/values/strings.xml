@@ -2,4 +2,6 @@
     <string name="app_name">GithubU</string>
     <string name="error_loading_data">Error loading data.</string>
     <string name="retry">Retry</string>
+    <string name="users">Users</string>
+    <string name="search_for_a_user_e_g_farizdotid">Search for a user, e.g. farizdotid</string>
 </resources>

@@ -20,7 +20,7 @@ import javax.inject.Inject
 class GeneralRepository @Inject constructor(
     private val generalDataSource: GeneralDataSource
 ) {
-    fun requestUsers(): Flow<PagingData<User>> {
+    fun requestPagingUsers(): Flow<PagingData<User>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -29,6 +29,26 @@ class GeneralRepository @Inject constructor(
             pagingSourceFactory = { UserPagingSource(generalDataSource) }
         ).flow
     }
+
+    suspend fun requestUsers(): Flow<Result<ArrayList<User>>> {
+        return flow {
+            emit(Result.loading())
+            val result = generalDataSource.reqUsers()
+            if (result.data?.isNotEmpty() == true) {
+                val userList = arrayListOf<User>()
+                result.data.forEachIndexed { index, data ->
+                    val id = data.id.orZero()
+                    val login = data.login.orEmpty()
+                    val avatar = data.avatarUrl.orEmpty()
+                    userList.add(User(id, login, avatar))
+                }
+                emit(Result.success(userList))
+            } else {
+                emit(Result.error("Failed to get data", result.error))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
 
     suspend fun requestSearchUsers(username:String): Flow<Result<ArrayList<User>>> {
         return flow {
