@@ -47,6 +47,24 @@ class UserDetailActivity :
                 }
             }
         }
+
+        userDetailViewModel.userRepos.observe(this) { result ->
+            when (result.status) {
+                Result.Status.SUCCESS -> {
+                    binding.pbLoading.gone()
+                    Timber.d("debug -- UserDetailActivity.kt - total repo ${result.data?.count()}")
+                }
+
+                Result.Status.ERROR -> {
+                    binding.pbLoading.gone()
+                    notify(result.message.toString())
+                }
+
+                Result.Status.LOADING -> {
+                    binding.pbLoading.visible()
+                }
+            }
+        }
     }
 
     override fun initAction() {

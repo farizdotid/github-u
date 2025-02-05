@@ -9,12 +9,5 @@ data class UserDetail(
     val blog: String,
     val location: String,
     val totalFollower: Int,
-    val totalFollowing: Int,
-    val repositoryList: ArrayList<Repository>
-) {
-    data class Repository(
-        val name: String,
-        val description: String,
-        val repoUrl: String
-    )
-}
+    val totalFollowing: Int
+)

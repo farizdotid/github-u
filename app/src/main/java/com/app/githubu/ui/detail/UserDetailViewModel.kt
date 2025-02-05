@@ -6,8 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.githubu.data.repository.GeneralRepository
 import com.app.githubu.model.content.UserDetail
+import com.app.githubu.model.content.UserRepo
 import com.app.githubu.utils.network.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +24,24 @@ class UserDetailViewModel @Inject constructor(
     fun requestDetailUser(username: String) {
         viewModelScope.launch {
             generalRepository.requestDetailUser(username)
+                .onCompletion {
+                    requestUserRepos(username)
+                }
                 .collect {
                     _userDetail.value = it
+                }
+        }
+    }
+
+    private val _userRepos = MutableLiveData<Result<ArrayList<UserRepo>>>()
+    val userRepos: LiveData<Result<ArrayList<UserRepo>>>
+        get() = _userRepos
+    private fun requestUserRepos(username:String){
+        viewModelScope.launch {
+            generalRepository.requestUserRepos(username)
+
+                .collect {
+                    _userRepos.value = it
                 }
         }
     }
