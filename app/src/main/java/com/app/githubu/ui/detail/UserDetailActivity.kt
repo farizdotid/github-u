@@ -5,11 +5,17 @@ import android.content.Intent
 import androidx.activity.viewModels
 import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityUserDetailBinding
+import com.app.githubu.model.content.UserDetail
+import com.app.githubu.utils.asUri
 import com.app.githubu.utils.gone
+import com.app.githubu.utils.image.loadUrlCirle
 import com.app.githubu.utils.network.Result
+import com.app.githubu.utils.openInBrowser
+import com.app.githubu.utils.orDash
+import com.app.githubu.utils.orZero
+import com.app.githubu.utils.setSafeOnClickListener
 import com.app.githubu.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class UserDetailActivity :
@@ -18,6 +24,7 @@ class UserDetailActivity :
     private val userDetailViewModel: UserDetailViewModel by viewModels()
 
     private var paramUsername = ""
+    private var userDetail: UserDetail? = null
 
     override fun loadBundleExtra() {
         super.loadBundleExtra()
@@ -34,7 +41,20 @@ class UserDetailActivity :
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     binding.pbLoading.gone()
-                    Timber.d("debug -- UserDetailActivity.kt - name ${result.data?.name}")
+
+                    userDetail = result.data
+
+                    if (userDetail?.blog == "-") binding.ivBlog.gone()
+
+                    "@${userDetail?.username?.orDash()}".let { text ->
+                        binding.tvUsername.text = text
+                    }
+                    binding.ivAvatar.loadUrlCirle(userDetail?.avatar.orEmpty())
+                    binding.tvName.text = userDetail?.name.orDash()
+                    binding.tvLocation.text = userDetail?.location.orDash()
+                    binding.tvTotalFollower.text = userDetail?.totalFollower.orZero().toString()
+                    binding.tvTotalFollowing.text = userDetail?.totalFollowing.orZero().toString()
+                    binding.tvTotalRepo.text = userDetail?.totalRepo.orZero().toString()
                 }
 
                 Result.Status.ERROR -> {
@@ -52,7 +72,6 @@ class UserDetailActivity :
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     binding.pbLoading.gone()
-                    Timber.d("debug -- UserDetailActivity.kt - total repo ${result.data?.count()}")
                 }
 
                 Result.Status.ERROR -> {
@@ -68,6 +87,11 @@ class UserDetailActivity :
     }
 
     override fun initAction() {
+        binding.ivBack.setSafeOnClickListener { finish() }
+
+        binding.ivBlog.setSafeOnClickListener {
+            userDetail?.blog?.asUri()?.openInBrowser(this)
+        }
     }
 
     companion object {

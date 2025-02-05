@@ -71,7 +71,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun setupUserAdapter() {
-        userAdapter = UserPagingAdapter()
+        userAdapter = UserPagingAdapter().apply {
+            setOnItemClickCallback(object : UserPagingAdapter.UserAdapterCallback {
+                override fun onClicked(data: User) {
+                    UserDetailActivity.start(this@MainActivity, false, data.username)
+                }
+
+            })
+        }
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
             adapter = userAdapter.withLoadStateHeaderAndFooter(

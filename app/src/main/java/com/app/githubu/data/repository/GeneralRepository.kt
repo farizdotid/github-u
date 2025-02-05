@@ -88,12 +88,13 @@ class GeneralRepository @Inject constructor(
             val location = result.data?.location.orDash()
             val totalFollower = result.data?.followers.orZero()
             val totalFollowing = result.data?.following.orZero()
+            val totalRepo = result.data?.publicRepos.orZero()
 
             emit(
                 Result.success(
                     UserDetail(
                         id, login, avatar, name, company, blog,
-                        location, totalFollower, totalFollowing
+                        location, totalFollower, totalFollowing, totalRepo
                     )
                 )
             )

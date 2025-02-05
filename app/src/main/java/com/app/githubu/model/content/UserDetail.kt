@@ -9,5 +9,6 @@ data class UserDetail(
     val blog: String,
     val location: String,
     val totalFollower: Int,
-    val totalFollowing: Int
+    val totalFollowing: Int,
+    val totalRepo: Int,
 )

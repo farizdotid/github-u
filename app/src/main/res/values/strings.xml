@@ -4,4 +4,8 @@
     <string name="retry">Retry</string>
     <string name="users">Users</string>
     <string name="search_for_a_user_e_g_farizdotid">Search for a user, e.g. farizdotid</string>
+    <string name="followers">Followers</string>
+    <string name="following">Following</string>
+    <string name="repos">Repos</string>
+    <string name="repositories">Repositories</string>
 </resources>
