@@ -27,11 +27,13 @@ android {
         create("dev") {
             dimension = "type"
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            buildConfigField("String", "GITHUB_TOKEN", "\"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\"")
         }
 
         create("prod") {
             dimension = "type"
             buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
+            buildConfigField("String", "GITHUB_TOKEN", "\"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\"")
         }
     }
 

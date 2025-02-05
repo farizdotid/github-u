@@ -1,5 +1,6 @@
 package com.app.githubu.utils.network
 
+import com.app.githubu.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -19,6 +20,8 @@ class ApiInterceptor : Interceptor {
 
         val requestBuilder =  original.newBuilder()
             .addHeader("Accept", "application/vnd.github+json")
+            .addHeader("Authorization", "Bearer ${BuildConfig.GITHUB_TOKEN}")
+            .addHeader("X-GitHub-Api-Version", "2022-11-28")
             .url(url)
 
         val request = requestBuilder.build()
