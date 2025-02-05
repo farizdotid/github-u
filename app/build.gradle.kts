@@ -1,3 +1,6 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -5,6 +8,17 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-android")
     id("kotlin-parcelize")
+}
+
+val apiKeyPropertiesFile = rootProject.file("apikey.properties")
+val apiKeyProperties = Properties()
+
+if (apiKeyPropertiesFile.exists()) {
+    apiKeyProperties.load(FileInputStream(apiKeyPropertiesFile))
+}
+
+fun getApiKeyProperty(key: String): String {
+    return apiKeyProperties.getProperty(key) ?: throw IllegalArgumentException("Missing property: $key")
 }
 
 android {
@@ -26,14 +40,14 @@ android {
     productFlavors {
         create("dev") {
             dimension = "type"
-            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
-            buildConfigField("String", "GITHUB_TOKEN", "\"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\"")
+            buildConfigField("String", "BASE_URL", "\"${getApiKeyProperty("BASE_URL")}\"")
+            buildConfigField("String", "GITHUB_TOKEN", "\"${getApiKeyProperty("GITHUB_TOKEN")}\"")
         }
 
         create("prod") {
             dimension = "type"
-            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
-            buildConfigField("String", "GITHUB_TOKEN", "\"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\"")
+            buildConfigField("String", "BASE_URL", "\"${getApiKeyProperty("BASE_URL")}\"")
+            buildConfigField("String", "GITHUB_TOKEN", "\"${getApiKeyProperty("GITHUB_TOKEN")}\"")
         }
     }
 
