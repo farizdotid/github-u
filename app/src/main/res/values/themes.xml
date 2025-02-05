@@ -1,9 +1,152 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.GithubU" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primaryDark</item>
+        <item name="android:windowAnimationStyle">@style/MyCustomActivityAnimation</item>
     </style>
 
     <style name="Theme.GithubU" parent="Base.Theme.GithubU" />
+
+    <!-- ACTIVITY ANIMATION -->
+    <style name="MyCustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">
+            @anim/slide_in_right
+        </item>
+        <item name="android:activityOpenExitAnimation">
+            @anim/slide_out_left
+        </item>
+        <item name="android:activityCloseEnterAnimation">
+            @anim/slide_in_left
+        </item>
+        <item name="android:activityCloseExitAnimation">
+            @anim/slide_out_right
+        </item>
+    </style>
+
+    <!-- POPPINS -->
+    <!-- Textview 10 -->
+    <style name="Textview_Regular_Poppins_10" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="Textview_Medium_Poppins_10" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Textview_SemiBold_Poppins_10" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Textview_Bold_Poppins_10" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">10sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <!-- Textview 12 -->
+    <style name="Textview_Regular_Poppins_12" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="Textview_Medium_Poppins_12" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Textview_SemiBold_Poppins_12" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Textview_Bold_Poppins_12" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <!-- Textview 14 -->
+    <style name="Textview_Regular_Poppins_14" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="Textview_Medium_Poppins_14" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Textview_SemiBold_Poppins_14" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Textview_Bold_Poppins_14" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <!-- Textview 16 -->
+    <style name="Textview_Regular_Poppins_16" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="Textview_Medium_Poppins_16" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Textview_SemiBold_Poppins_16" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Textview_Bold_Poppins_16" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">16sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <!-- Textview 18 -->
+    <style name="Textview_Regular_Poppins_18" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="Textview_Medium_Poppins_18" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Textview_SemiBold_Poppins_18" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Textview_Bold_Poppins_18" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">18sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
+
+    <!-- Textview 20 -->
+    <style name="Textview_Regular_Poppins_20" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+    </style>
+
+    <style name="Textview_Medium_Poppins_20" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/poppins_medium</item>
+    </style>
+
+    <style name="Textview_SemiBold_Poppins_20" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/poppins_semibold</item>
+    </style>
+
+    <style name="Textview_Bold_Poppins_20" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/poppins_bold</item>
+    </style>
 </resources>
