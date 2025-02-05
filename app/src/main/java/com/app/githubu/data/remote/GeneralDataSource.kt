@@ -18,10 +18,10 @@ class GeneralDataSource @Inject constructor(
 ) {
     private var generalServices: GeneralServices = retrofit.create(GeneralServices::class.java)
 
-    suspend fun reqUsers(): Result<List<RespUsers.RespUsersItem>> {
+    suspend fun reqUsers(page:Int? = null, perPage:Int? = null): Result<List<RespUsers.RespUsersItem>> {
         return getResponse(
             request = {
-                generalServices.requestUsers()
+                generalServices.requestUsers(page, perPage)
             }
         )
     }

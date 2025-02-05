@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GithubU</string>
+    <string name="error_loading_data">Error loading data.</string>
+    <string name="retry">Retry</string>
 </resources>

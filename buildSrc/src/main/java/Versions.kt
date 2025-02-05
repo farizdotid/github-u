@@ -24,6 +24,7 @@ object Versions {
     val moshi = "1.14.0"
     val ktx_fragment = "1.5.0"
     val ktx_activity = "1.5.0"
+    val paging = "3.3.5"
 
     //test
     val junit = "4.13.2"

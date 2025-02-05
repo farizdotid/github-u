@@ -11,7 +11,10 @@ import retrofit2.http.Query
 
 interface GeneralServices {
     @GET("users")
-    suspend fun requestUsers(): Response<List<RespUsers.RespUsersItem>>
+    suspend fun requestUsers(
+        @Query("page") page:Int? = null,
+        @Query("per_page") perPage:Int? = null,
+    ): Response<List<RespUsers.RespUsersItem>>
 
     @GET("search/users")
     suspend fun requestSearchUsers(

@@ -32,6 +32,7 @@ object AppDependencies {
     val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     val roomKtx = "androidx.room:room-ktx:${Versions.room}"
+    val paging = "androidx.paging:paging-runtime:${Versions.paging}"
 
     //android ui
     private val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
@@ -72,6 +73,7 @@ object AppDependencies {
         add(ktxActivity)
         add(roomKtx)
         add(roomRuntime)
+        add(paging)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {

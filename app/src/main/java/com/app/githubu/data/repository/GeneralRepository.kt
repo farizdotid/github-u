@@ -1,5 +1,9 @@
 package com.app.githubu.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.app.githubu.data.paging.UserPagingSource
 import com.app.githubu.data.remote.GeneralDataSource
 import com.app.githubu.model.content.User
 import com.app.githubu.model.content.UserDetail
@@ -16,27 +20,14 @@ import javax.inject.Inject
 class GeneralRepository @Inject constructor(
     private val generalDataSource: GeneralDataSource
 ) {
-    suspend fun requestUsers(): Flow<Result<ArrayList<User>>> {
-        return flow {
-            emit(Result.loading())
-            val result = generalDataSource.reqUsers()
-
-            if (result.data?.isNotEmpty() == true) {
-                val userList = arrayListOf<User>()
-
-                result.data.forEachIndexed { index, data ->
-                    val login = data.login.orEmpty()
-                    val avatar = data.avatarUrl.orEmpty()
-
-                    userList.add(User(login, avatar))
-                }
-
-                emit(Result.success(userList))
-            } else {
-                emit(Result.error("Failed to get data", result.error))
-            }
-
-        }.flowOn(Dispatchers.IO)
+    fun requestUsers(): Flow<PagingData<User>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { UserPagingSource(generalDataSource) }
+        ).flow
     }
 
     suspend fun requestSearchUsers(username:String): Flow<Result<ArrayList<User>>> {
@@ -48,10 +39,11 @@ class GeneralRepository @Inject constructor(
                 val userList = arrayListOf<User>()
 
                 result.data?.items?.forEachIndexed { index, data ->
+                    val id = data?.id.orZero()
                     val login = data?.login.orDash()
                     val avatar = data?.avatarUrl.orDash()
 
-                    userList.add(User(login, avatar))
+                    userList.add(User(id, login, avatar))
                 }
 
                 emit(Result.success(userList))
