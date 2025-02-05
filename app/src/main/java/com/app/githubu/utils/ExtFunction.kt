@@ -97,3 +97,13 @@ fun Uri?.openInBrowser(context: Context) {
     val browserIntent = Intent(Intent.ACTION_VIEW, this)
     ContextCompat.startActivity(context, browserIntent, null)
 }
+
+/**
+ * VALIDATE STRING IF EMPTY, IT SHOULD BE "-"
+ */
+fun String?.orDash(): String = this ?: "-"
+
+/**
+ * VALIDATE INT IF EMPTY, IT SHOULD BE 0
+ */
+fun Int?.orZero(): Int = this ?: 0

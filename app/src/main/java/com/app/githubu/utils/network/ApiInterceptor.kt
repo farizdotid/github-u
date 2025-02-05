@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ApiInterceptor : Interceptor {
+class ApiInterceptor @Inject constructor(): Interceptor {
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -20,7 +20,7 @@ class ApiInterceptor : Interceptor {
 
         val requestBuilder =  original.newBuilder()
             .addHeader("Accept", "application/vnd.github+json")
-            .addHeader("Authorization", "Bearer ${BuildConfig.GITHUB_TOKEN}")
+            .addHeader("Authorization", BuildConfig.GITHUB_TOKEN)
             .addHeader("X-GitHub-Api-Version", "2022-11-28")
             .url(url)
 
