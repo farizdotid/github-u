@@ -26,12 +26,12 @@ android {
     productFlavors {
         create("dev") {
             dimension = "type"
-            buildConfigField("String", "BASE_URL", "\"https://nn-api.stagingapp.xyz/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
 
         create("prod") {
             dimension = "type"
-            buildConfigField("String", "BASE_URL", "\"https://nn-api.stagingapp.xyz/\"")
+            buildConfigField("String", "BASE_URL", "\"https://api.github.com/\"")
         }
     }
 
