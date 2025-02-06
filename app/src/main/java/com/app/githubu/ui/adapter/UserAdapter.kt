@@ -8,8 +8,8 @@ import com.app.githubu.model.content.User
 import com.app.githubu.utils.image.loadUrlCirle
 import com.app.githubu.utils.setSafeOnClickListener
 
-class UserSearchAdapter constructor(private val list: ArrayList<User>) :
-    RecyclerView.Adapter<UserSearchAdapter.UserSearchAdapterHolder>() {
+class UserAdapter constructor(private val list: ArrayList<User>) :
+    RecyclerView.Adapter<UserAdapter.UserSearchAdapterHolder>() {
 
     private var onItemClickCallback: UserSearchAdapterCallback? = null
 

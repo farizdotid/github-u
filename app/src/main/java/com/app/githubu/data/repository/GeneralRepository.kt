@@ -4,7 +4,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.app.githubu.data.paging.RepoUserPagingSource
-import com.app.githubu.data.paging.UserPagingSource
 import com.app.githubu.data.remote.GeneralDataSource
 import com.app.githubu.model.content.User
 import com.app.githubu.model.content.UserDetail
@@ -16,21 +15,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import timber.log.Timber
 import javax.inject.Inject
 
 class GeneralRepository @Inject constructor(
     private val generalDataSource: GeneralDataSource
 ) {
-    fun requestPagingUsers(): Flow<PagingData<User>> {
-        return Pager(
-            config = PagingConfig(
-                pageSize = 10,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = { UserPagingSource(generalDataSource) }
-        ).flow
-    }
+
 
     suspend fun requestUsers(): Flow<Result<ArrayList<User>>> {
         return flow {

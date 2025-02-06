@@ -23,9 +23,6 @@ class MainViewModel @Inject constructor(
     private val localRepository: LocalRepository
 ) : ViewModel() {
 
-    val pagedUsers: Flow<PagingData<User>> = generalRepository.requestPagingUsers()
-        .cachedIn(viewModelScope)
-
     private val _userList = MutableLiveData<Result<ArrayList<User>>>()
     val userList: LiveData<Result<ArrayList<User>>>
         get() = _userList
@@ -49,5 +46,9 @@ class MainViewModel @Inject constructor(
 
     suspend fun getAllDataViewedUsers() : List<LastViewUser> {
         return localRepository.getAllLastViewUser()
+    }
+
+    init {
+        requestUsers()
     }
 }

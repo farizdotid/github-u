@@ -10,17 +10,13 @@ import com.app.githubu.databinding.ActivityMainBinding
 import com.app.githubu.model.content.User
 import com.app.githubu.model.entities.LastViewUser
 import com.app.githubu.ui.adapter.LastUserViewAdapter
-import com.app.githubu.ui.adapter.PagingLoadStateAdapter
-import com.app.githubu.ui.adapter.UserPagingAdapter
-import com.app.githubu.ui.adapter.UserSearchAdapter
+import com.app.githubu.ui.adapter.UserAdapter
 import com.app.githubu.ui.detail.UserDetailActivity
 import com.app.githubu.utils.afterTextChangedDebounce
 import com.app.githubu.utils.gone
-import com.app.githubu.utils.isNetworkAvailable
 import com.app.githubu.utils.network.Result
 import com.app.githubu.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -28,17 +24,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private val mainViewModel:MainViewModel by viewModels()
 
-    private lateinit var userAdapter: UserPagingAdapter
-    private lateinit var userSearchAdapter: UserSearchAdapter
+    private lateinit var userAdapter: UserAdapter
     private lateinit var lastUserViewAdapter: LastUserViewAdapter
 
     override fun initialize() {
-        if (!isNetworkAvailable(this)) {
-            notify("No internet connection")
-        }
-
-        setupUserAdapter()
-        fetchUsers()
     }
 
     override fun initObserveViewModel() {
@@ -46,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
             when (result.status) {
                 Result.Status.SUCCESS -> {
                     binding.pbLoading.gone()
-                    initUserSearchAdapter(result.data ?: arrayListOf())
+                    initUserAdapter(result.data ?: arrayListOf())
                 }
 
                 Result.Status.ERROR -> {
@@ -57,14 +46,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
                 Result.Status.LOADING -> {
                     binding.pbLoading.visible()
                 }
-            }
-        }
-    }
-
-    private fun fetchUsers() {
-        lifecycleScope.launch {
-            mainViewModel.pagedUsers.collectLatest { pagingData ->
-                userAdapter.submitData(pagingData)
             }
         }
     }
@@ -89,26 +70,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun setupUserAdapter() {
-        userAdapter = UserPagingAdapter().apply {
-            setOnItemClickCallback(object : UserPagingAdapter.UserAdapterCallback {
-                override fun onClicked(data: User) {
-                    UserDetailActivity.start(this@MainActivity, false, data.username)
-                }
-
-            })
-        }
-        binding.rvUsers.apply {
-            layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = userAdapter.withLoadStateFooter(
-                footer = PagingLoadStateAdapter { userAdapter.retry() }
-            )
-        }
-    }
-
-    private fun initUserSearchAdapter(userList: ArrayList<User>) {
-        userSearchAdapter = UserSearchAdapter(userList).apply {
-            setOnItemClickCallback(object : UserSearchAdapter.UserSearchAdapterCallback {
+    private fun initUserAdapter(userList: ArrayList<User>) {
+        userAdapter = UserAdapter(userList).apply {
+            setOnItemClickCallback(object : UserAdapter.UserSearchAdapterCallback {
                 override fun onClicked(user: User) {
                     UserDetailActivity.start(this@MainActivity, false, user.username)
                 }
@@ -117,7 +81,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(context)
-            adapter = userSearchAdapter
+            adapter = userAdapter
         }
 
         if (userList.isEmpty()) {
