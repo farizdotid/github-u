@@ -82,15 +82,15 @@ class GeneralRepository @Inject constructor(
             val result = generalDataSource.reqDetailUser(username)
 
             val id = result.data?.id.orZero()
-            val login = result.data?.login.orDash()
+            val login = result.data?.username.orDash()
             val avatar = result.data?.avatarUrl.orDash()
             val name = result.data?.name.orDash()
             val company = result.data?.company.orDash()
             val blog = result.data?.blog.orDash()
             val location = result.data?.location.orDash()
-            val totalFollower = result.data?.followers.orZero()
-            val totalFollowing = result.data?.following.orZero()
-            val totalRepo = result.data?.publicRepos.orZero()
+            val totalFollower = result.data?.totalFollower.orZero()
+            val totalFollowing = result.data?.totalFollowing.orZero()
+            val totalRepo = result.data?.totalRepo.orZero()
 
             emit(
                 Result.success(

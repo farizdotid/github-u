@@ -47,6 +47,9 @@ object AppDependencies {
     private val mockitoCore = "org.mockito:mockito-core:5.15.2"
     private val mockwebserver = "com.squareup.okhttp3:mockwebserver:4.12.0"
     private val archCoreTesting = "androidx.arch.core:core-testing:2.2.0"
+    private val turbine = "app.cash.turbine:turbine:1.2.0"
+    private val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.0"
+    private val pagingCommon = "androidx.paging:paging-common-ktx:3.3.5"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
@@ -87,6 +90,9 @@ object AppDependencies {
         add(mockitoCore)
         add(mockwebserver)
         add(archCoreTesting)
+        add(turbine)
+        add(kotlinCoroutinesTest)
+        add(pagingCommon)
     }
 
     val compilerLibraries = arrayListOf<String>().apply {
