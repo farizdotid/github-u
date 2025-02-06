@@ -48,7 +48,3 @@ Contributions are welcome! Feel free to fork the project, create pull requests, 
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
-
-## Contact
-For any inquiries, feel free to contact [Fariz Ramadhan](mailto:farizramadhan@example.com).
-
