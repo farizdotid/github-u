@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView;
 import com.app.githubu.databinding.ItemRepoBinding
 import com.app.githubu.model.content.UserRepo
+import com.app.githubu.utils.setSafeOnClickListener
 
 class UserRepoPagingAdapter : PagingDataAdapter<UserRepo, UserRepoPagingAdapter.UserRepoViewHolder>(UserRepoDiffCallback) {
 
@@ -44,6 +45,10 @@ class UserRepoPagingAdapter : PagingDataAdapter<UserRepo, UserRepoPagingAdapter.
         fun bind(data: UserRepo) {
             binding.tvName.text = data.name
             binding.tvDesc.text = data.description
+
+            binding.root.setSafeOnClickListener {
+                onItemClickCallback?.onClicked(data)
+            }
         }
     }
 
@@ -52,6 +57,6 @@ class UserRepoPagingAdapter : PagingDataAdapter<UserRepo, UserRepoPagingAdapter.
     }
 
     interface UserRepoAdapterCallback {
-        fun onClicked()
+        fun onClicked(userRepo: UserRepo)
     }
 }

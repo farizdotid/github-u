@@ -12,6 +12,7 @@ import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityUserDetailBinding
 import com.app.githubu.model.content.User
 import com.app.githubu.model.content.UserDetail
+import com.app.githubu.model.content.UserRepo
 import com.app.githubu.ui.adapter.PagingLoadStateAdapter
 import com.app.githubu.ui.adapter.UserPagingAdapter
 import com.app.githubu.ui.adapter.UserRepoPagingAdapter
@@ -111,7 +112,14 @@ class UserDetailActivity :
     }
 
     private fun setupUserRepoAdapter() {
-        userRepoPagingAdapter = UserRepoPagingAdapter()
+        userRepoPagingAdapter = UserRepoPagingAdapter().apply {
+            setOnItemClickCallback(object:UserRepoPagingAdapter.UserRepoAdapterCallback{
+                override fun onClicked(userRepo: UserRepo) {
+                    userRepo.repoUrl.asUri().openInBrowser(this@UserDetailActivity)
+                }
+
+            })
+        }
         binding.rvRepos.apply {
             layoutManager = LinearLayoutManager(this@UserDetailActivity)
             adapter = userRepoPagingAdapter.withLoadStateFooter(
