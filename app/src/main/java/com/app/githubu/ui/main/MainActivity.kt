@@ -81,8 +81,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
         binding.rvUsers.apply {
             layoutManager = LinearLayoutManager(this@MainActivity)
-            adapter = userAdapter.withLoadStateHeaderAndFooter(
-                header = PagingLoadStateAdapter { userAdapter.retry() },
+            adapter = userAdapter.withLoadStateFooter(
                 footer = PagingLoadStateAdapter { userAdapter.retry() }
             )
         }

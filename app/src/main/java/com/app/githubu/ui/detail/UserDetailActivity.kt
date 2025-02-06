@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
+import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityUserDetailBinding
@@ -113,8 +114,7 @@ class UserDetailActivity :
         userRepoPagingAdapter = UserRepoPagingAdapter()
         binding.rvRepos.apply {
             layoutManager = LinearLayoutManager(this@UserDetailActivity)
-            adapter = userRepoPagingAdapter.withLoadStateHeaderAndFooter(
-                header = PagingLoadStateAdapter { userRepoPagingAdapter.retry() },
+            adapter = userRepoPagingAdapter.withLoadStateFooter(
                 footer = PagingLoadStateAdapter { userRepoPagingAdapter.retry() }
             )
         }

@@ -13,7 +13,7 @@ interface GeneralServices {
     @GET("users")
     suspend fun requestUsers(
         @Query("page") page:Int? = null,
-        @Query("per_page") perPage:Int? = 20,
+        @Query("per_page") perPage:Int? = 10,
     ): Response<List<RespUsers.RespUsersItem>>
 
     @GET("search/users")
@@ -30,6 +30,6 @@ interface GeneralServices {
     suspend fun requestUserRepos(
         @Path("username") username: String,
         @Query("page") page:Int? = null,
-        @Query("per_page") perPage:Int? = 20,
+        @Query("per_page") perPage:Int? = 10,
     ): Response<List<RespUserRepos.RespUserRepoItem>>
 }

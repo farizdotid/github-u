@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.githubu.databinding.ItemRepoBinding
 import com.app.githubu.model.content.UserRepo
 
-class UserRepoPagingAdapter : PagingDataAdapter<UserRepo, UserRepoPagingAdapter.UserRepoViewHolder>(DiffCallback) {
+class UserRepoPagingAdapter : PagingDataAdapter<UserRepo, UserRepoPagingAdapter.UserRepoViewHolder>(UserRepoDiffCallback) {
 
     private var onItemClickCallback: UserRepoAdapterCallback? = null
 
@@ -24,11 +24,18 @@ class UserRepoPagingAdapter : PagingDataAdapter<UserRepo, UserRepoPagingAdapter.
         return UserRepoViewHolder(binding)
     }
 
-    object DiffCallback : DiffUtil.ItemCallback<UserRepo>() {
+    object UserRepoDiffCallback : DiffUtil.ItemCallback<UserRepo>() {
         override fun areItemsTheSame(oldItem: UserRepo, newItem: UserRepo) =
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: UserRepo, newItem: UserRepo) = oldItem == newItem
+
+        override fun getChangePayload(oldItem: UserRepo, newItem: UserRepo): Any? {
+            if (oldItem != newItem) {
+                return newItem
+            }
+            return super.getChangePayload(oldItem, newItem)
+        }
     }
 
     inner class UserRepoViewHolder(private val binding: ItemRepoBinding) :

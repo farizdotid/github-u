@@ -25,7 +25,7 @@ class GeneralRepository @Inject constructor(
     fun requestPagingUsers(): Flow<PagingData<User>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 10,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { UserPagingSource(generalDataSource) }
@@ -105,37 +105,12 @@ class GeneralRepository @Inject constructor(
     }
 
     fun requestPagingUserRepos(username: String): Flow<PagingData<UserRepo>> {
-        Timber.d("debug -- GeneralRepository.kt - requestPagingUserRepos $username")
         return Pager(
             config = PagingConfig(
-                pageSize = 20,
+                pageSize = 10,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { RepoUserPagingSource(generalDataSource, username) }
         ).flow
-    }
-    suspend fun requestUserRepos(username: String): Flow<Result<ArrayList<UserRepo>>> {
-        return flow {
-            emit(Result.loading())
-            val result = generalDataSource.reqUserRepos(username)
-
-            if (result.data?.isNotEmpty() == true) {
-                val repoList = arrayListOf<UserRepo>()
-
-                result.data.forEachIndexed { index, data ->
-                    val id = data.id.orZero()
-                    val name = data.name.orEmpty()
-                    val desc = data.description.orEmpty()
-                    val htmlUrl = data.htmlUrl.orEmpty()
-
-                    repoList.add(UserRepo(id, name, desc, htmlUrl))
-                }
-
-                emit(Result.success(repoList))
-            } else {
-                emit(Result.error("Failed to get data", result.error))
-            }
-
-        }.flowOn(Dispatchers.IO)
     }
 }
