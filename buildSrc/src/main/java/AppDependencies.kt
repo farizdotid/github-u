@@ -32,6 +32,7 @@ object AppDependencies {
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
     val roomKtx = "androidx.room:room-ktx:${Versions.room}"
     val paging = "androidx.paging:paging-runtime:${Versions.paging}"
+    val splashscreen = "androidx.core:core-splashscreen:${Versions.splashscreen}"
 
     //android ui
     private val appcompat = "androidx.appcompat:appcompat:${Versions.appcompat}"
@@ -45,11 +46,12 @@ object AppDependencies {
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
     private val mockitoCore = "org.mockito:mockito-core:5.15.2"
-    private val mockwebserver = "com.squareup.okhttp3:mockwebserver:4.12.0"
+    private val mockwebserver = "com.squareup.okhttp3:mockwebserver:4.10.0"
     private val archCoreTesting = "androidx.arch.core:core-testing:2.2.0"
     private val turbine = "app.cash.turbine:turbine:1.2.0"
     private val kotlinCoroutinesTest = "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.0"
     private val pagingCommon = "androidx.paging:paging-common-ktx:3.3.5"
+    private val espressoContrib = "androidx.test.espresso:espresso-contrib:${Versions.espresso}"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
@@ -78,11 +80,14 @@ object AppDependencies {
         add(roomKtx)
         add(roomRuntime)
         add(paging)
+        add(splashscreen)
     }
 
     val androidTestLibraries = arrayListOf<String>().apply {
         add(extJUnit)
         add(espressoCore)
+        add(mockwebserver)
+        add(espressoContrib)
     }
 
     val testLibraries = arrayListOf<String>().apply {

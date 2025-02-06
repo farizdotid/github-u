@@ -1,5 +1,7 @@
 package com.app.githubu.ui.main
 
+import android.content.Context
+import android.content.Intent
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -134,6 +136,22 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         binding.rvUserViewed.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = lastUserViewAdapter
+        }
+    }
+
+    companion object {
+        private const val EXTRA_IS_CLEAR_BACK_STACK = "extra_is_clear_back_stack"
+
+        fun start(context: Context, isClearBackStack: Boolean) {
+            val starter = Intent(context, MainActivity::class.java)
+            starter.putExtra(EXTRA_IS_CLEAR_BACK_STACK, isClearBackStack)
+
+            if (isClearBackStack) {
+                starter.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or
+                        Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
+
+            context.startActivity(starter)
         }
     }
 
