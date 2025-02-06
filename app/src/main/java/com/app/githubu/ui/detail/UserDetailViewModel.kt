@@ -12,6 +12,8 @@ import com.app.githubu.model.content.UserDetail
 import com.app.githubu.model.content.UserRepo
 import com.app.githubu.model.entities.LastViewUser
 import com.app.githubu.utils.network.Result
+import com.app.githubu.utils.orDash
+import com.app.githubu.utils.orZero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -41,6 +43,30 @@ class UserDetailViewModel @Inject constructor(
         }
     }
 
+    private val _userDetailFromDb = MutableLiveData<UserDetail>()
+    val userDetailFromDb: LiveData<UserDetail>
+        get() = _userDetailFromDb
+
+    fun requestDetailUserFromDb(username: String) {
+        viewModelScope.launch {
+            val lastViewUserSearch = localRepository.getDataByUsername(username)
+
+            _userDetailFromDb.value = UserDetail(
+                lastViewUserSearch.first().id.orZero(),
+                lastViewUserSearch.first().username.orDash(),
+                lastViewUserSearch.first().avatar.orDash(),
+                lastViewUserSearch.first().name.orDash(),
+                lastViewUserSearch.first().company.orDash(),
+                lastViewUserSearch.first().blog.orDash(),
+                lastViewUserSearch.first().location.orDash(),
+                lastViewUserSearch.first().totalFollower.orZero(),
+                lastViewUserSearch.first().totalFollowing.orZero(),
+                lastViewUserSearch.first().totalRepo.orZero()
+            )
+        }
+
+    }
+
     private val _username = MutableStateFlow("")
 
     val pagedUserRepos: Flow<PagingData<UserRepo>> = _username
@@ -56,22 +82,19 @@ class UserDetailViewModel @Inject constructor(
 
     fun insertDataDetailToDb(userDetail: UserDetail){
         viewModelScope.launch {
-            val lastViewUserSearch = localRepository.getDataByUsername(userDetail.username)
-            if (lastViewUserSearch.isEmpty()){
-                val lastViewUser = LastViewUser()
-                lastViewUser.idUser = userDetail.id
-                lastViewUser.username = userDetail.username
-                lastViewUser.avatar = userDetail.avatar
-                lastViewUser.name = userDetail.name
-                lastViewUser.company = userDetail.company
-                lastViewUser.blog = userDetail.blog
-                lastViewUser.location = userDetail.location
-                lastViewUser.totalFollower = userDetail.totalFollower
-                lastViewUser.totalFollowing = userDetail.totalFollowing
-                lastViewUser.totalRepo = userDetail.totalRepo
+            val lastViewUser = LastViewUser()
+            lastViewUser.idUser = userDetail.id
+            lastViewUser.username = userDetail.username
+            lastViewUser.avatar = userDetail.avatar
+            lastViewUser.name = userDetail.name
+            lastViewUser.company = userDetail.company
+            lastViewUser.blog = userDetail.blog
+            lastViewUser.location = userDetail.location
+            lastViewUser.totalFollower = userDetail.totalFollower
+            lastViewUser.totalFollowing = userDetail.totalFollowing
+            lastViewUser.totalRepo = userDetail.totalRepo
 
-                localRepository.insertData(lastViewUser)
-            }
+            localRepository.insertData(lastViewUser)
         }
 
     }

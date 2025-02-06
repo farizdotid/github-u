@@ -16,4 +16,6 @@ interface LastViewUserDao {
 
     @Query("SELECT * FROM tbl_last_view_user WHERE username=:username")
     suspend fun getDataByUsername(username: String): List<LastViewUser>
+
+
 }

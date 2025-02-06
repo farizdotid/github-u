@@ -14,6 +14,7 @@ import com.app.githubu.ui.adapter.UserSearchAdapter
 import com.app.githubu.ui.detail.UserDetailActivity
 import com.app.githubu.utils.afterTextChangedDebounce
 import com.app.githubu.utils.gone
+import com.app.githubu.utils.isNetworkAvailable
 import com.app.githubu.utils.network.Result
 import com.app.githubu.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     private lateinit var lastUserViewAdapter: LastUserViewAdapter
 
     override fun initialize() {
+        if (!isNetworkAvailable(this)) {
+            notify("No internet connection")
+        }
+
         setupUserAdapter()
         fetchUsers()
     }
@@ -117,7 +122,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     }
 
     private fun initLastUserViewAdapter(userViewList: ArrayList<LastViewUser>) {
-        lastUserViewAdapter = LastUserViewAdapter(userViewList)
+        lastUserViewAdapter = LastUserViewAdapter(userViewList).apply {
+            setOnItemClickCallback(object : LastUserViewAdapter.LastUserViewAdapterCallback {
+                override fun onLastUserViewAdapterClicked(item: LastViewUser) {
+                    UserDetailActivity.start(this@MainActivity, false, item.username.orEmpty())
+                }
+            })
+        }
         binding.rvUserViewed.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = lastUserViewAdapter

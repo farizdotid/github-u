@@ -6,19 +6,17 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.LoadState
-import androidx.paging.filter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityUserDetailBinding
-import com.app.githubu.model.content.User
 import com.app.githubu.model.content.UserDetail
 import com.app.githubu.model.content.UserRepo
 import com.app.githubu.ui.adapter.PagingLoadStateAdapter
-import com.app.githubu.ui.adapter.UserPagingAdapter
 import com.app.githubu.ui.adapter.UserRepoPagingAdapter
 import com.app.githubu.utils.asUri
 import com.app.githubu.utils.gone
 import com.app.githubu.utils.image.loadUrlCirle
+import com.app.githubu.utils.isNetworkAvailable
 import com.app.githubu.utils.network.Result
 import com.app.githubu.utils.openInBrowser
 import com.app.githubu.utils.orDash
@@ -43,12 +41,19 @@ class UserDetailActivity :
         super.loadBundleExtra()
 
         paramUsername = intent.getStringExtra(EXTRA_USERNAME).orEmpty()
-        userDetailViewModel.requestDetailUser(paramUsername)
-        userDetailViewModel.setUsername(paramUsername)
+
+        if (isNetworkAvailable(this)) {
+            userDetailViewModel.requestDetailUser(paramUsername)
+            userDetailViewModel.setUsername(paramUsername)
+        } else {
+            userDetailViewModel.requestDetailUserFromDb(paramUsername)
+        }
+
     }
 
     override fun initialize() {
         setupUserRepoAdapter()
+        fetchUserRepos()
     }
 
     override fun initObserveViewModel() {
@@ -58,20 +63,7 @@ class UserDetailActivity :
                     binding.pbLoading.gone()
 
                     userDetail = result.data
-
-                    if (userDetail?.blog == "-") binding.ivBlog.gone()
-
-                    "@${userDetail?.username?.orDash()}".let { text ->
-                        binding.tvUsername.text = text
-                    }
-                    binding.ivAvatar.loadUrlCirle(userDetail?.avatar.orEmpty())
-                    binding.tvName.text = userDetail?.name.orDash()
-                    binding.tvLocation.text = userDetail?.location.orDash()
-                    binding.tvTotalFollower.text = userDetail?.totalFollower.orZero().toString()
-                    binding.tvTotalFollowing.text = userDetail?.totalFollowing.orZero().toString()
-                    binding.tvTotalRepo.text = userDetail?.totalRepo.orZero().toString()
-
-                    userDetail?.let { userDetailViewModel.insertDataDetailToDb(it) }
+                    userDetail?.let { generateViewUserDetail(it, false) }
                 }
 
                 Result.Status.ERROR -> {
@@ -85,7 +77,10 @@ class UserDetailActivity :
             }
         }
 
-        fetchUserRepos()
+        userDetailViewModel.userDetailFromDb.observe(this) { result ->
+            generateViewUserDetail(result, true)
+        }
+
     }
 
     override fun initAction() {
@@ -94,6 +89,22 @@ class UserDetailActivity :
         binding.ivBlog.setSafeOnClickListener {
             userDetail?.blog?.asUri()?.openInBrowser(this)
         }
+    }
+
+    private fun generateViewUserDetail(userDetail: UserDetail, isFromDb: Boolean) {
+        if (userDetail.blog == "-") binding.ivBlog.gone()
+
+        "@${userDetail.username.orDash()}".let { text ->
+            binding.tvUsername.text = text
+        }
+        binding.ivAvatar.loadUrlCirle(userDetail.avatar.orEmpty())
+        binding.tvName.text = userDetail.name.orDash()
+        binding.tvLocation.text = userDetail.location.orDash()
+        binding.tvTotalFollower.text = userDetail.totalFollower.orZero().toString()
+        binding.tvTotalFollowing.text = userDetail.totalFollowing.orZero().toString()
+        binding.tvTotalRepo.text = userDetail.totalRepo.orZero().toString()
+
+        if (!isFromDb) userDetail.let { userDetailViewModel.insertDataDetailToDb(it) }
     }
 
     private fun setupUserRepoAdapter() {
