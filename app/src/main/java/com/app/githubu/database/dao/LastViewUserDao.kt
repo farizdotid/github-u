@@ -8,7 +8,7 @@ import com.app.githubu.model.entities.LastViewUser
 
 @Dao
 interface LastViewUserDao {
-    @Query("SELECT * FROM tbl_last_view_user")
+    @Query("SELECT * FROM tbl_last_view_user GROUP BY username")
     suspend fun loadAllLastViewUser(): List<LastViewUser>
 
     @Insert

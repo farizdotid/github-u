@@ -7,7 +7,7 @@ import com.app.githubu.databinding.ItemLastUserViewedBinding
 import com.app.githubu.model.entities.LastViewUser
 import com.app.githubu.utils.setSafeOnClickListener
 
-class LastUserViewAdapter constructor(private val list: ArrayList<LastViewUser>) :
+class LastUserViewAdapter constructor(private val list: List<LastViewUser>) :
     RecyclerView.Adapter<LastUserViewAdapter.LastUserViewAdapterHolder>() {
 
     private var onItemClickCallback: LastUserViewAdapterCallback? = null

@@ -81,7 +81,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
     override fun onResume() {
         super.onResume()
         lifecycleScope.launch {
-            initLastUserViewAdapter(mainViewModel.getAllDataViewedUsers() as ArrayList<LastViewUser>)
+            if (mainViewModel.getAllDataViewedUsers().isNotEmpty()){
+                initLastUserViewAdapter(mainViewModel.getAllDataViewedUsers())
+            }
         }
     }
 
@@ -121,7 +123,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         }
     }
 
-    private fun initLastUserViewAdapter(userViewList: ArrayList<LastViewUser>) {
+    private fun initLastUserViewAdapter(userViewList: List<LastViewUser>) {
         lastUserViewAdapter = LastUserViewAdapter(userViewList).apply {
             setOnItemClickCallback(object : LastUserViewAdapter.LastUserViewAdapterCallback {
                 override fun onLastUserViewAdapterClicked(item: LastViewUser) {
