@@ -70,6 +70,8 @@ class UserDetailActivity :
                     binding.tvTotalFollower.text = userDetail?.totalFollower.orZero().toString()
                     binding.tvTotalFollowing.text = userDetail?.totalFollowing.orZero().toString()
                     binding.tvTotalRepo.text = userDetail?.totalRepo.orZero().toString()
+
+                    userDetail?.let { userDetailViewModel.insertDataDetailToDb(it) }
                 }
 
                 Result.Status.ERROR -> {
@@ -84,23 +86,6 @@ class UserDetailActivity :
         }
 
         fetchUserRepos()
-
-//        userDetailViewModel.userRepos.observe(this) { result ->
-//            when (result.status) {
-//                Result.Status.SUCCESS -> {
-//                    binding.pbLoading.gone()
-//                }
-//
-//                Result.Status.ERROR -> {
-//                    binding.pbLoading.gone()
-//                    notify(result.message.toString())
-//                }
-//
-//                Result.Status.LOADING -> {
-//                    binding.pbLoading.visible()
-//                }
-//            }
-//        }
     }
 
     override fun initAction() {
