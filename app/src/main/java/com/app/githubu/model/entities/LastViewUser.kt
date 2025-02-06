@@ -16,6 +16,9 @@ class LastViewUser() : Serializable {
     @ColumnInfo(name = "username")
     var username: String? = null
 
+    @ColumnInfo(name = "avatar")
+    var avatar: String? = null
+
     @ColumnInfo(name = "name")
     var name: String? = null
 

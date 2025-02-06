@@ -7,12 +7,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-@InstallIn(SingletonComponent::class)
 @Module
-class LocalRepositoryModule {
-    @Singleton
+@InstallIn(SingletonComponent::class)
+object LocalRepositoryModule {
     @Provides
-    fun providesLocalRepository(myDatabase: MyDatabase): LocalRepository? {
-        return myDatabase.getLastViewUserDao()?.let { LocalRepository(it) }
+    @Singleton
+    fun providesLocalRepository(myDatabase: MyDatabase): LocalRepository {
+        return LocalRepository(myDatabase.getLastViewUserDao())
     }
 }

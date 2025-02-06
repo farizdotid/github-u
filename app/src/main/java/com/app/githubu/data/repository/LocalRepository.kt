@@ -8,7 +8,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class LocalRepository @Inject constructor(lastViewUserDao: LastViewUserDao) {
+class LocalRepository @Inject constructor(
+    private val lastViewUserDao: LastViewUserDao
+) {
     private var daoLastViewUser = lastViewUserDao
 
     fun insertData(lastViewUser: LastViewUser) {

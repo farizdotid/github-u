@@ -1,11 +1,14 @@
 package com.app.githubu.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import com.app.githubu.database.MyDatabase
+import com.app.githubu.database.dao.LastViewUserDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
@@ -15,8 +18,8 @@ class RoomDatabaseModule {
 
     @Singleton
     @Provides
-    fun providesRoomDatabase(application: Application): MyDatabase {
-        myDatabase = Room.databaseBuilder(application, MyDatabase::class.java, "githubu_db")
+    fun providesRoomDatabase(@ApplicationContext context: Context): MyDatabase {
+        myDatabase = Room.databaseBuilder(context, MyDatabase::class.java, "githubu_db")
                 .fallbackToDestructiveMigration()
                 .build()
         return myDatabase
@@ -24,5 +27,7 @@ class RoomDatabaseModule {
 
     @Singleton
     @Provides
-    fun providesLastViewUserDAO(myDatabase: MyDatabase) = myDatabase.getLastViewUserDao()
+    fun providesLastViewUserDAO(myDatabase: MyDatabase): LastViewUserDao {
+        return myDatabase.getLastViewUserDao()
+    }
 }

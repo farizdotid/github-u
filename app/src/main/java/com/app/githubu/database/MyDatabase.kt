@@ -7,5 +7,5 @@ import com.app.githubu.model.entities.LastViewUser
 
 @Database(entities = [LastViewUser::class], version = 1, exportSchema = false)
 abstract class MyDatabase : RoomDatabase() {
-    abstract fun getLastViewUserDao(): LastViewUserDao?
+    abstract fun getLastViewUserDao(): LastViewUserDao
 }
