@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityMainBinding
 import com.app.githubu.model.content.User
+import com.app.githubu.model.entities.LastViewUser
+import com.app.githubu.ui.adapter.LastUserViewAdapter
 import com.app.githubu.ui.adapter.PagingLoadStateAdapter
 import com.app.githubu.ui.adapter.UserPagingAdapter
 import com.app.githubu.ui.adapter.UserSearchAdapter
@@ -25,6 +27,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
     private lateinit var userAdapter: UserPagingAdapter
     private lateinit var userSearchAdapter: UserSearchAdapter
+    private lateinit var lastUserViewAdapter: LastUserViewAdapter
 
     override fun initialize() {
         setupUserAdapter()
@@ -70,6 +73,13 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            initLastUserViewAdapter(mainViewModel.getAllDataViewedUsers() as ArrayList<LastViewUser>)
+        }
+    }
+
     private fun setupUserAdapter() {
         userAdapter = UserPagingAdapter().apply {
             setOnItemClickCallback(object : UserPagingAdapter.UserAdapterCallback {
@@ -103,6 +113,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(ActivityMainBinding::infl
 
         if (userList.isEmpty()) {
             notify("User not found")
+        }
+    }
+
+    private fun initLastUserViewAdapter(userViewList: ArrayList<LastViewUser>) {
+        lastUserViewAdapter = LastUserViewAdapter(userViewList)
+        binding.rvUserViewed.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = lastUserViewAdapter
         }
     }
 

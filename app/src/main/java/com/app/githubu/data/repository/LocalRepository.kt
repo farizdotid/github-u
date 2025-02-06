@@ -1,6 +1,5 @@
 package com.app.githubu.data.repository
 
-import androidx.lifecycle.LiveData
 import com.app.githubu.database.dao.LastViewUserDao
 import com.app.githubu.model.entities.LastViewUser
 import kotlinx.coroutines.CoroutineScope
@@ -13,13 +12,17 @@ class LocalRepository @Inject constructor(
 ) {
     private var daoLastViewUser = lastViewUserDao
 
-    fun insertData(lastViewUser: LastViewUser) {
+    suspend fun insertData(lastViewUser: LastViewUser) {
         CoroutineScope(Dispatchers.IO).launch {
             daoLastViewUser.insertLastViewUser(lastViewUser)
         }
     }
 
-    fun getLastViewUser(): LiveData<List<LastViewUser>> {
-        return daoLastViewUser.loadAllLastViewUser()
+    suspend fun getAllLastViewUser(): List<LastViewUser> {
+        return daoLastViewUser.loadAllLastViewUser().reversed().take(3)
+    }
+
+    suspend fun getDataByUsername(username: String): List<LastViewUser> {
+        return daoLastViewUser.getDataByUsername(username)
     }
 }

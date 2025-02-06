@@ -55,18 +55,24 @@ class UserDetailViewModel @Inject constructor(
     }
 
     fun insertDataDetailToDb(userDetail: UserDetail){
-        val lastViewUser = LastViewUser()
-        lastViewUser.idUser = userDetail.id
-        lastViewUser.username = userDetail.username
-        lastViewUser.avatar = userDetail.avatar
-        lastViewUser.name = userDetail.name
-        lastViewUser.company = userDetail.company
-        lastViewUser.blog = userDetail.blog
-        lastViewUser.location = userDetail.location
-        lastViewUser.totalFollower = userDetail.totalFollower
-        lastViewUser.totalFollowing = userDetail.totalFollowing
-        lastViewUser.totalRepo = userDetail.totalRepo
+        viewModelScope.launch {
+            val lastViewUserSearch = localRepository.getDataByUsername(userDetail.username)
+            if (lastViewUserSearch.isEmpty()){
+                val lastViewUser = LastViewUser()
+                lastViewUser.idUser = userDetail.id
+                lastViewUser.username = userDetail.username
+                lastViewUser.avatar = userDetail.avatar
+                lastViewUser.name = userDetail.name
+                lastViewUser.company = userDetail.company
+                lastViewUser.blog = userDetail.blog
+                lastViewUser.location = userDetail.location
+                lastViewUser.totalFollower = userDetail.totalFollower
+                lastViewUser.totalFollowing = userDetail.totalFollowing
+                lastViewUser.totalRepo = userDetail.totalRepo
 
-        localRepository.insertData(lastViewUser)
+                localRepository.insertData(lastViewUser)
+            }
+        }
+
     }
 }

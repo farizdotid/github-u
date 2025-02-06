@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.app.githubu.data.repository.GeneralRepository
+import com.app.githubu.data.repository.LocalRepository
 import com.app.githubu.model.content.User
+import com.app.githubu.model.content.UserDetail
+import com.app.githubu.model.entities.LastViewUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
@@ -17,6 +20,7 @@ import com.app.githubu.utils.network.Result
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val generalRepository: GeneralRepository,
+    private val localRepository: LocalRepository
 ) : ViewModel() {
 
     val pagedUsers: Flow<PagingData<User>> = generalRepository.requestPagingUsers()
@@ -41,5 +45,9 @@ class MainViewModel @Inject constructor(
                     _userList.value = it
                 }
         }
+    }
+
+    suspend fun getAllDataViewedUsers() : List<LastViewUser> {
+        return localRepository.getAllLastViewUser()
     }
 }

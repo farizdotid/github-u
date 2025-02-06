@@ -9,8 +9,11 @@ import com.app.githubu.model.entities.LastViewUser
 @Dao
 interface LastViewUserDao {
     @Query("SELECT * FROM tbl_last_view_user")
-    fun loadAllLastViewUser(): LiveData<List<LastViewUser>>
+    suspend fun loadAllLastViewUser(): List<LastViewUser>
 
     @Insert
-    fun insertLastViewUser(lastViewUser: LastViewUser)
+    suspend fun insertLastViewUser(lastViewUser: LastViewUser)
+
+    @Query("SELECT * FROM tbl_last_view_user WHERE username=:username")
+    suspend fun getDataByUsername(username: String): List<LastViewUser>
 }
