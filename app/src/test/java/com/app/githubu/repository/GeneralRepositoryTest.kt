@@ -41,6 +41,29 @@ class GeneralRepositoryTest {
     }
 
     @Test
+    fun `requestUsers should emit loading and success when data is available`() = runTest {
+        val mockRespData = arrayListOf(
+            RespUsers.RespUsersItem(id = 1, login = "octocat", avatarUrl = "url")
+        )
+        val mockResult = Result.success(mockRespData)
+
+        val expectedUserList = arrayListOf(
+            User(id = 1, username = "octocat", avatarUrl = "url")
+        )
+
+        Mockito.`when`(generalDataSource.reqUsers()).thenReturn(mockResult)
+
+        repository.requestUsers().test {
+            // Then
+            assertEquals(Result.loading<List<User>>(), awaitItem())
+            val result = awaitItem()
+            assertEquals(Result.Status.SUCCESS, result.status)
+            assertEquals(expectedUserList, result.data)
+            cancelAndIgnoreRemainingEvents()
+        }
+    }
+
+    @Test
     fun `requestUsers should emit error when data is unavailable`() = runTest {
         val mockResult = Result.error<List<RespUsers.RespUsersItem>>(
             message = "Failed to get data",
@@ -64,15 +87,15 @@ class GeneralRepositoryTest {
         // Given
         val mockRespDetailUser = RespDetailUser(
             id = 1,
-            username = "octocat",  // Assuming 'login' maps to 'username'
+            username = "octocat",
             avatarUrl = "url",
             name = "Octocat",
             company = "GitHub",
             blog = "https://github.com",
             location = "San Francisco",
-            totalFollower = 100,  // Assuming 'followers' maps to 'totalFollower'
-            totalFollowing = 50,  // Assuming 'following' maps to 'totalFollowing'
-            totalRepo = 10  // Assuming 'publicRepos' maps to 'totalRepo'
+            totalFollower = 100,
+            totalFollowing = 50,
+            totalRepo = 10
         )
 
         val mockDetailResult = Result.success(mockRespDetailUser)
@@ -83,7 +106,7 @@ class GeneralRepositoryTest {
         // When
         repository.requestDetailUser("octocat").test {
             // Then
-            assertEquals(Result.loading<UserDetail>(), awaitItem())  // Specify the correct type
+            assertEquals(Result.loading<UserDetail>(), awaitItem())
             val result = awaitItem()
 
             // Map RespDetailUser to UserDetail
@@ -100,8 +123,8 @@ class GeneralRepositoryTest {
                 totalRepo = mockRespDetailUser.totalRepo.orZero()
             )
 
-            assertEquals(Result.Status.SUCCESS, result.status)  // Check if the status is SUCCESS
-            assertEquals(expectedUserDetail, result.data)  // Compare with UserDetail
+            assertEquals(Result.Status.SUCCESS, result.status)
+            assertEquals(expectedUserDetail, result.data)
             cancelAndIgnoreRemainingEvents()
         }
     }
