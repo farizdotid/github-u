@@ -46,8 +46,6 @@ This application uses the [GitHub REST API](https://docs.github.com/en/rest) to 
 ## Screenshots
 <details>
   <summary>Show/Hide Screenshots</summary>
-270
-602
 
 ### Home
 <img src="https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_3.jpg" alt="Home" width="270"/>
