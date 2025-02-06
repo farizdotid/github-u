@@ -43,6 +43,21 @@ This application uses the [GitHub REST API](https://docs.github.com/en/rest) to 
 ## Testing
 - **Unit Tests**: Written for ViewModels and Repository classes
 
+## Screenshots
+<details>
+  <summary>Show/Hide Screenshots</summary>
+
+### Home
+![Home](https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_3.jpg)
+
+### Home - Search
+![Home - Search](https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_2.jpg)
+
+### Detail User
+![Detail User](https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_1.jpg)
+
+</details>
+
 ## Contributions
 Contributions are welcome! Feel free to fork the project, create pull requests, or submit issues.
 
