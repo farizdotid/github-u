@@ -27,7 +27,6 @@ object AppDependencies {
     val chuckerRelease = "com.github.chuckerteam.chucker:library-no-op:${Versions.chucker}"
     val networkResponse = "com.github.haroldadmin:NetworkResponseAdapter:${Versions.network_response}"
     val timber = "com.jakewharton.timber:timber:${Versions.timber}"
-    val ktxFragment = "androidx.fragment:fragment-ktx:${Versions.ktx_fragment}"
     val ktxActivity = "androidx.activity:activity-ktx:${Versions.ktx_activity}"
     val roomRuntime = "androidx.room:room-runtime:${Versions.room}"
     val roomCompiler = "androidx.room:room-compiler:${Versions.room}"
@@ -45,6 +44,9 @@ object AppDependencies {
     private val junit = "junit:junit:${Versions.junit}"
     private val extJUnit = "androidx.test.ext:junit:${Versions.extJunit}"
     private val espressoCore = "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    private val mockitoCore = "org.mockito:mockito-core:5.15.2"
+    private val mockwebserver = "com.squareup.okhttp3:mockwebserver:4.12.0"
+    private val archCoreTesting = "androidx.arch.core:core-testing:2.2.0"
 
     val appLibraries = arrayListOf<String>().apply {
         add(kotlinStdLib)
@@ -69,7 +71,6 @@ object AppDependencies {
         add(moshiKotlin)
         add(networkResponse)
         add(timber)
-        add(ktxFragment)
         add(ktxActivity)
         add(roomKtx)
         add(roomRuntime)
@@ -83,6 +84,9 @@ object AppDependencies {
 
     val testLibraries = arrayListOf<String>().apply {
         add(junit)
+        add(mockitoCore)
+        add(mockwebserver)
+        add(archCoreTesting)
     }
 
     val compilerLibraries = arrayListOf<String>().apply {

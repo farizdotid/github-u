@@ -22,7 +22,6 @@ object Versions {
     val retrofit = "2.9.0"
     val room = "2.6.1"
     val moshi = "1.14.0"
-    val ktx_fragment = "1.5.0"
     val ktx_activity = "1.5.0"
     val paging = "3.3.5"
 
