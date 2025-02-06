@@ -46,15 +46,17 @@ This application uses the [GitHub REST API](https://docs.github.com/en/rest) to 
 ## Screenshots
 <details>
   <summary>Show/Hide Screenshots</summary>
+270
+602
 
 ### Home
-![Home](https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_3.jpg)
+<img src="https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_3.jpg" alt="Home" width="270"/>
 
 ### Home - Search
-![Home - Search](https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_2.jpg)
+<img src="https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_2.jpg" alt="Home - Search" width="270"/>
 
 ### Detail User
-![Detail User](https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_1.jpg)
+<img src="https://raw.githubusercontent.com/farizdotid/github-u/refs/heads/main/screenshot/ss_1.jpg" alt="Detail User" width="270"/>
 
 </details>
 
