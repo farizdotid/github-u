@@ -3,6 +3,7 @@ package com.app.githubu.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.app.githubu.data.paging.RepoUserPagingSource
 import com.app.githubu.data.paging.UserPagingSource
 import com.app.githubu.data.remote.GeneralDataSource
 import com.app.githubu.model.content.User
@@ -15,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import timber.log.Timber
 import javax.inject.Inject
 
 class GeneralRepository @Inject constructor(
@@ -102,6 +104,16 @@ class GeneralRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+    fun requestPagingUserRepos(username: String): Flow<PagingData<UserRepo>> {
+        Timber.d("debug -- GeneralRepository.kt - requestPagingUserRepos $username")
+        return Pager(
+            config = PagingConfig(
+                pageSize = 20,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { RepoUserPagingSource(generalDataSource, username) }
+        ).flow
+    }
     suspend fun requestUserRepos(username: String): Flow<Result<ArrayList<UserRepo>>> {
         return flow {
             emit(Result.loading())
@@ -111,11 +123,12 @@ class GeneralRepository @Inject constructor(
                 val repoList = arrayListOf<UserRepo>()
 
                 result.data.forEachIndexed { index, data ->
+                    val id = data.id.orZero()
                     val name = data.name.orEmpty()
                     val desc = data.description.orEmpty()
                     val htmlUrl = data.htmlUrl.orEmpty()
 
-                    repoList.add(UserRepo(name, desc, htmlUrl))
+                    repoList.add(UserRepo(id, name, desc, htmlUrl))
                 }
 
                 emit(Result.success(repoList))

@@ -3,9 +3,17 @@ package com.app.githubu.ui.detail
 import android.content.Context
 import android.content.Intent
 import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import androidx.paging.LoadState
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.app.githubu.base.BaseActivity
 import com.app.githubu.databinding.ActivityUserDetailBinding
+import com.app.githubu.model.content.User
 import com.app.githubu.model.content.UserDetail
+import com.app.githubu.ui.adapter.PagingLoadStateAdapter
+import com.app.githubu.ui.adapter.UserPagingAdapter
+import com.app.githubu.ui.adapter.UserRepoPagingAdapter
 import com.app.githubu.utils.asUri
 import com.app.githubu.utils.gone
 import com.app.githubu.utils.image.loadUrlCirle
@@ -16,12 +24,15 @@ import com.app.githubu.utils.orZero
 import com.app.githubu.utils.setSafeOnClickListener
 import com.app.githubu.utils.visible
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class UserDetailActivity :
     BaseActivity<ActivityUserDetailBinding>(ActivityUserDetailBinding::inflate) {
 
     private val userDetailViewModel: UserDetailViewModel by viewModels()
+    private lateinit var userRepoPagingAdapter: UserRepoPagingAdapter
 
     private var paramUsername = ""
     private var userDetail: UserDetail? = null
@@ -31,9 +42,11 @@ class UserDetailActivity :
 
         paramUsername = intent.getStringExtra(EXTRA_USERNAME).orEmpty()
         userDetailViewModel.requestDetailUser(paramUsername)
+        userDetailViewModel.setUsername(paramUsername)
     }
 
     override fun initialize() {
+        setupUserRepoAdapter()
     }
 
     override fun initObserveViewModel() {
@@ -68,22 +81,24 @@ class UserDetailActivity :
             }
         }
 
-        userDetailViewModel.userRepos.observe(this) { result ->
-            when (result.status) {
-                Result.Status.SUCCESS -> {
-                    binding.pbLoading.gone()
-                }
+        fetchUserRepos()
 
-                Result.Status.ERROR -> {
-                    binding.pbLoading.gone()
-                    notify(result.message.toString())
-                }
-
-                Result.Status.LOADING -> {
-                    binding.pbLoading.visible()
-                }
-            }
-        }
+//        userDetailViewModel.userRepos.observe(this) { result ->
+//            when (result.status) {
+//                Result.Status.SUCCESS -> {
+//                    binding.pbLoading.gone()
+//                }
+//
+//                Result.Status.ERROR -> {
+//                    binding.pbLoading.gone()
+//                    notify(result.message.toString())
+//                }
+//
+//                Result.Status.LOADING -> {
+//                    binding.pbLoading.visible()
+//                }
+//            }
+//        }
     }
 
     override fun initAction() {
@@ -91,6 +106,29 @@ class UserDetailActivity :
 
         binding.ivBlog.setSafeOnClickListener {
             userDetail?.blog?.asUri()?.openInBrowser(this)
+        }
+    }
+
+    private fun setupUserRepoAdapter() {
+        userRepoPagingAdapter = UserRepoPagingAdapter()
+        binding.rvRepos.apply {
+            layoutManager = LinearLayoutManager(this@UserDetailActivity)
+            adapter = userRepoPagingAdapter.withLoadStateHeaderAndFooter(
+                header = PagingLoadStateAdapter { userRepoPagingAdapter.retry() },
+                footer = PagingLoadStateAdapter { userRepoPagingAdapter.retry() }
+            )
+        }
+
+        userRepoPagingAdapter.addLoadStateListener { loadState ->
+            binding.pbLoading.isVisible = loadState.source.refresh is LoadState.Loading
+        }
+    }
+
+    private fun fetchUserRepos() {
+        lifecycleScope.launch {
+            userDetailViewModel.pagedUserRepos.collectLatest { pagingData ->
+                userRepoPagingAdapter.submitData(pagingData)
+            }
         }
     }
 

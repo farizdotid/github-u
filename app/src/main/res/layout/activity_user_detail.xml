@@ -55,150 +55,164 @@
             app:srcCompat="@drawable/rss_feed" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iv_avatar"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        tools:src="@drawable/no_image_512" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_name"
-        style="@style/Textview_Bold_Poppins_18"
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="2"
-        android:paddingHorizontal="16dp"
-        android:textColor="@color/primaryDark"
-        tools:text="Fariz Ramadhan" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tv_location"
-        style="@style/Textview_Regular_Poppins_14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="2dp"
-        android:drawablePadding="8dp"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="3"
-        android:paddingHorizontal="16dp"
-        android:textColor="@color/neutral_80"
-        app:drawableStartCompat="@drawable/home_pin"
-        tools:text="Bandung" />
-
-    <androidx.appcompat.widget.LinearLayoutCompat
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
             android:orientation="vertical">
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_total_follower"
-                style="@style/Textview_SemiBold_Poppins_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:textColor="@color/primary"
-                tools:text="500" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/iv_avatar"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                tools:src="@drawable/no_image_512" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_name"
+                style="@style/Textview_Bold_Poppins_18"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/primaryDark"
+                tools:text="Fariz Ramadhan" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_location"
                 style="@style/Textview_Regular_Poppins_14"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/followers"
-                android:textColor="@color/neutral_80" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:background="@color/neutral_40" />
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_total_following"
-                style="@style/Textview_SemiBold_Poppins_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="2dp"
+                android:drawablePadding="8dp"
                 android:ellipsize="end"
-                android:textColor="@color/primary"
-                tools:text="500" />
+                android:gravity="center_vertical"
+                android:maxLines="3"
+                android:paddingHorizontal="16dp"
+                android:textColor="@color/neutral_80"
+                app:drawableStartCompat="@drawable/home_pin"
+                tools:text="Bandung" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_follower"
+                        style="@style/Textview_SemiBold_Poppins_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textColor="@color/primary"
+                        tools:text="500" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Textview_Regular_Poppins_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/followers"
+                        android:textColor="@color/neutral_80" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:background="@color/neutral_40" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_following"
+                        style="@style/Textview_SemiBold_Poppins_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textColor="@color/primary"
+                        tools:text="500" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Textview_Regular_Poppins_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/following"
+                        android:textColor="@color/neutral_80" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="25dp"
+                    android:layout_gravity="center"
+                    android:background="@color/neutral_40" />
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tv_total_repo"
+                        style="@style/Textview_SemiBold_Poppins_20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:textColor="@color/primary"
+                        tools:text="500" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/Textview_Regular_Poppins_14"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/repos"
+                        android:textColor="@color/neutral_80" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Textview_Regular_Poppins_14"
-                android:layout_width="wrap_content"
+                style="@style/Textview_Bold_Poppins_16"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/following"
-                android:textColor="@color/neutral_80" />
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:text="@string/repositories"
+                android:textColor="@color/primaryDark" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_repos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:itemCount="2"
+                tools:listitem="@layout/item_repo" />
         </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="25dp"
-            android:layout_gravity="center"
-            android:background="@color/neutral_40" />
 
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/tv_total_repo"
-                style="@style/Textview_SemiBold_Poppins_20"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:textColor="@color/primary"
-                tools:text="500" />
-
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/Textview_Regular_Poppins_14"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/repos"
-                android:textColor="@color/neutral_80" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
-    </androidx.appcompat.widget.LinearLayoutCompat>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        style="@style/Textview_Bold_Poppins_16"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/repositories"
-        android:textColor="@color/primaryDark" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_repos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_repo" />
 </androidx.appcompat.widget.LinearLayoutCompat>

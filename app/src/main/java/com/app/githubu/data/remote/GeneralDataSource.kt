@@ -42,10 +42,14 @@ class GeneralDataSource @Inject constructor(
         )
     }
 
-    suspend fun reqUserRepos(username:String): Result<List<RespUserRepos.RespUserRepoItem>> {
+    suspend fun reqUserRepos(
+        username: String,
+        page: Int? = null,
+        perPage: Int? = null
+    ): Result<List<RespUserRepos.RespUserRepoItem>> {
         return getResponse(
             request = {
-                generalServices.requestUserRepos(username)
+                generalServices.requestUserRepos(username, page, perPage)
             }
         )
     }
